@@ -13,7 +13,17 @@ const db = mysql.createConnection({
     password: "",
     database: "crud"
 })
-
+app.post('/login',(req,res) =>{
+    const sql = "SELECT * FROM login WHERE username = ? AND password = ?";
+    db.query(sql, [req.body.email, req.body.password], (err, data) => {
+        if(err) return res.json("Error");
+        if(data.lenght > 0){
+            return res.json("Login Berhasil")
+        } else {
+            return res.json("Akun tidak Terdaftar")
+        };
+    });
+});
 app.get("/jumlah-warga", (req, res) => {
     const sql = "SELECT COUNT(*) AS jumlahWarga FROM datawarga";
     db.query(sql, (err, result) => {
